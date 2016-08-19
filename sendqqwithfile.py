@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 mailInfo={
+<<<<<<< HEAD
     "from":"wzwmxd@qq.com",
 <<<<<<< HEAD
     "to":"884015671@qq.com",
@@ -24,6 +25,17 @@ mailInfo={
 }
 if __name__=='__main__':
     mailInfo['password']=raw_input('[操作提示:]请输入邮箱密码/授权码:')
+=======
+    "from":"884015671@qq.com",
+    "to":"884015671@qq.com",
+    "hostname":"smtp.qq.com",
+    "username":"884015671",
+    "mailsubject":"MESSAGE FROM PARENTS",
+    "mailencoding":"utf-8"
+}
+if __name__=='__main__':
+    mailInfo['password']=raw_input('[操作提示:]请输入邮箱密码:')
+>>>>>>> cdf5bc9e5dba370e61406c0a909e551c9938f642
     mailInfo['mailtext']=raw_input("[操作提示:]请输入你想说的话:\n")
     smtp=SMTP_SSL(mailInfo["hostname"])
     smtp.set_debuglevel(0)
