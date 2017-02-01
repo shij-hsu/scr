@@ -6,41 +6,23 @@ from smtplib import SMTP_SSL
 from email.header import Header
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from ip import *
 
 mailInfo={
-<<<<<<< HEAD
     "from":"wzwmxd@qq.com",
-<<<<<<< HEAD
     "to":"884015671@qq.com",
     "hostname":"smtp.qq.com",
     "username":"wzwmxd",
-    "mailsubject":"MESSAGE FROM PARENTS",
-=======
     "to":"wzwmxd@qq.com",
     "hostname":"smtp.qq.com",
     "username":"wzwmxd",
-    "mailsubject":"NEWS",
->>>>>>> 65baaa96b18bddde7dbd516b2437b9cd684580ff
+    "mailsubject":"ROBOT",
     "mailencoding":"utf-8"
 }
 if __name__=='__main__':
     mailInfo['password']=raw_input('[操作提示:]请输入邮箱密码/授权码:')
-=======
-    "from":"884015671@qq.com",
-    "to":"884015671@qq.com",
-    "hostname":"smtp.qq.com",
-    "username":"884015671",
-    "mailsubject":"MESSAGE FROM PARENTS",
-    "mailencoding":"utf-8"
-}
-if __name__=='__main__':
-    mailInfo['password']=raw_input('[操作提示:]请输入邮箱密码:')
-<<<<<<< HEAD
->>>>>>> cdf5bc9e5dba370e61406c0a909e551c9938f642
-=======
->>>>>>> 6ccef71017a751746d0f2483c9a73223b2fbfd62
->>>>>>> 42edd2338100cb86d6d66ce3242255f335b45bb1
-    mailInfo['mailtext']=raw_input("[操作提示:]请输入你想说的话:\n")
+    ip_info=get_ip_ip138()
+    mailInfo['mailtext']=ip_info[0]+' '+ip_info[1]
     smtp=SMTP_SSL(mailInfo["hostname"])
     smtp.set_debuglevel(0)
     smtp.ehlo(mailInfo["hostname"])
@@ -51,17 +33,6 @@ if __name__=='__main__':
     msg['Subject']=Header(mailInfo['mailsubject'],mailInfo['mailencoding'])
     msg['from']=mailInfo['from']
     msg['to']=mailInfo['to']
-
-    files=raw_input("[操作提示:]请拖拽文件，多个文件之间用空格分开\n")
-    file_list=files.split(' ')
-
-    for file in file_list:
-        if file=='':
-            continue
-        att=MIMEText(open(file[1:-1]).read(),'base64','utf-8')
-        att['Content-Type']='application/octet-stream'
-        att['Content-Disposition']='attachment;filename=%s'%file
-        msg.attach(att)
 
     print '[操作提示:]正在发送邮件请耐心等待...'
     try:

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import urllib2, urllib, cookielib, re
+import urllib2, urllib, cookielib, re, time
 
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -80,11 +80,15 @@ xk_data = {
     'xnxq': '<xnxq>',
     'zylx': '<zylx>'
 }
+count = 0
+retvalue = 'C'
 req = urllib2.Request(url, urllib.urlencode(xk_data), headers)
-response = urllib2.urlopen(req)
-retvalue = response.read()
-# 返回值使用前缀表明选课结果，C表示失败，D表示成功
-if retvalue[0] == 'D':
-    print u'选课成功，课程编号：' + retvalue
-else:
-    print u'选课失败：' + retvalue
+while retvalue[0] != 'D':
+    retvalue = urllib2.urlopen(req).read().decode('gbk')
+    # 返回值使用前缀表明选课结果，C表示失败，D表示成功
+    if retvalue[0] == 'D':
+        print u'选课成功，课程编号：' + retvalue
+        break
+    else:
+        print u'\r正在补选: ' + retvalue
+    time.sleep(0.5)
