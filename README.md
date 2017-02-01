@@ -1,2 +1,2 @@
-# Py
-python code
+# scr
+一些有趣的脚本

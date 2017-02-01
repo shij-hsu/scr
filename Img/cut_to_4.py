@@ -1,23 +1,24 @@
 from __future__ import print_function
 import sys, os
 from PIL import Image
-import ImageEnhance, ImageFilter
 import math
 
 
-def cut(img, img_path, file_name, n):
+def cut(img, file_name, dir):
     w, h = img.size
     img_list = []
-    for i in range(n):
+    for i in range(4):
         img_list.append(Image.new(img.mode, (w / 4, h)))
     image = img.copy()
     xsize, ysize = image.size
-    w = xsize / n
-    for i in range(n):
+    w = xsize / 4
+    for i in range(4):
         crop = img.crop((w * i, 0, (i + 1) * w, ysize))
         img_list[i].paste(crop, (0, 0, w, ysize))
+    if not os.path.exists(dir + 'Cut/'):
+        os.mkdir(dir + 'Cut/')
     for i, img in enumerate(img_list):
-        img.save('%s/tmp/%s_%d.gif' % (image_path, os.path.splitext(file_name[0])[0], i))
+        img.save(dir + 'Cut/%s_%d.gif' % (file_name, i))
 
 
 def image_filter(img):
@@ -80,13 +81,16 @@ def dist(x, y):
     return math.sqrt((x[0] - y[0]) ** 2 + (x[1] - y[1]) ** 2)
 
 
-eps = 1
-image_path = 'random_img/'
-for i in range(10):
+image_path = '/home/kyo/Touro/Pictures/Random_Image/'
+for i in range(int(raw_input("Input numbers of images:"))):
     image = Image.open(image_path + '%d.jpg' % i)
     image = image.convert('RGBA')
     image_filter(image)
-    cut(image, image_path, '%d.jpg' % i, 4)
+    cut(image, '%d.jpg' % i, image_path)
+    sys.stdout.flush()
+    print("\rCutting image %d ..." % i, end='')
+print(' OK.')
+'''
 mean_list = []
 var_list = []
 count = 0
@@ -102,3 +106,4 @@ for i in range(10):
 
 for i in range(len(mean_list)):
     print(i, mean_list[i], var_list[i])
+'''
